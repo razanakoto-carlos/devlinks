@@ -13,13 +13,44 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, GitBranch } from "lucide-react";
+import { login } from "@/lib/actions/auth-actions";
 
 export default function LoginPage() {
   const [show, setShow] = useState(false);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  function handleForm(e: React.ChangeEvent<HTMLInputElement>) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const { password, email } = form;
+      const result = await login(password, email);
+      if (!result.user) {
+        setError("Invalid email or password");
+      }
+      setForm({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-[#0d0f18] flex items-center justify-center px-4">
-      <div className="w-full max-w-md space-y-6">
+      <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6">
         <div className="flex flex-col items-center gap-2 text-center">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_6px_#4ade80]" />
@@ -51,9 +82,13 @@ export default function LoginPage() {
               <span className="text-[#4a5568] text-xs">ou</span>
               <Separator className="flex-1 bg-[#1e2535]" />
             </div>
+            {error && <p>{error}</p>}
             <div className="space-y-1.5">
               <Label className="text-[#8892a4] text-sm">Email</Label>
               <Input
+                onChange={handleForm}
+                value={form.email}
+                name="email"
                 type="email"
                 placeholder="toi@exemple.com"
                 className="bg-[#0d0f18] border-[#1e2535] text-[#e8eaf0] placeholder:text-[#4a5568] focus-visible:ring-green-400/30 focus-visible:border-green-400/40"
@@ -71,6 +106,9 @@ export default function LoginPage() {
               </div>
               <div className="relative">
                 <Input
+                  onChange={handleForm}
+                  value={form.password}
+                  name="password"
                   type={show ? "text" : "password"}
                   placeholder="••••••••"
                   className="bg-[#0d0f18] border-[#1e2535] text-[#e8eaf0] placeholder:text-[#4a5568] pr-10 focus-visible:ring-green-400/30 focus-visible:border-green-400/40"
@@ -88,15 +126,18 @@ export default function LoginPage() {
                 </button>
               </div>
             </div>
-            <Button className="w-full bg-green-400 text-[#0d0f18] font-semibold hover:bg-green-300 transition-colors">
-              Se connecter
+            <Button
+              type="submit"
+              className="w-full bg-green-400 text-[#0d0f18] font-semibold hover:bg-green-300 transition-colors"
+            >
+              {isLoading ? "Chargement..." : "Se connecter"}
             </Button>
           </CardContent>
           <CardFooter className="bg-[#161b27] justify-center pt-0">
             <p className="text-[#6b7a99] text-sm">
               Pas encore de compte ?{" "}
               <Link
-                href="/register"
+                href="/auth/register"
                 className="text-green-400 hover:text-green-300 font-medium transition-colors"
               >
                 Créer un compte
@@ -104,7 +145,7 @@ export default function LoginPage() {
             </p>
           </CardFooter>
         </Card>
-      </div>
+      </form>
     </main>
   );
 }

@@ -46,7 +46,7 @@ function Navbar() {
                 Annuaire
               </Button>
             </Link>
-            <Link href="/login">
+            <Link href="/auth/login">
               <Button
                 variant="outline"
                 className="border-white/20 bg-transparent text-slate-200 hover:bg-transparent hover:border-green-500 hover:text-green-500 text-sm h-9"
@@ -54,7 +54,7 @@ function Navbar() {
                 Se connecter
               </Button>
             </Link>
-            <Link href="/register">
+            <Link href="/auth/register">
               <Button className="bg-green-500 text-[#0f1117] hover:bg-green-500 font-semibold text-sm h-9">
                 Créer un compte
               </Button>
