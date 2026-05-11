@@ -1,8 +1,12 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { auth } from "@/lib/auth";
 import Link from "next/link";
 
-function Navbar() {
-  const user = false;
+type Session = typeof auth.$Infer.Session
+
+function Navbar({session}:{session: Session | null}) {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0f1117] border-b border-white/5 h-14 px-16 flex items-center justify-between">
       <div className="flex items-center gap-2">
@@ -12,7 +16,7 @@ function Navbar() {
         </span>
       </div>
       <div className="flex items-center gap-2">
-        {user ? (
+        {session ? (
           <>
             <Link href="/">
                <Button
