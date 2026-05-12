@@ -12,7 +12,7 @@ async function LoginPage() {
     redirect("/")
   }
 
-  return (
+  return ( 
     <LoginClientPage />
   )
 }

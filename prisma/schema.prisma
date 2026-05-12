@@ -20,7 +20,7 @@ model User {
   bio           String?
   role          String?
   location      String?
-  avatar        String?
+  image         String?
   available     Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updateAt      DateTime  @updatedAt
