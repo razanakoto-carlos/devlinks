@@ -16,7 +16,7 @@ CREATE TABLE "user" (
     "bio" TEXT,
     "role" TEXT,
     "location" TEXT,
-    "avatar" TEXT,
+    "image" TEXT,
     "available" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,

@@ -31,18 +31,30 @@ export async function register(
 }
 
 export async function login(password: string, email: string) {
-    const result = await auth.api.signInEmail({
-      body: {
-        password,
-        email,
-        callbackURL: "/dashboard",
-      },
-    });
-    if (!result?.user) {
-      return { error: "Email ou mot de passe invalide" };
-    }
+  const result = await auth.api.signInEmail({
+    body: {
+      password,
+      email,
+      callbackURL: "/dashboard",
+    },
+  });
+  if (!result?.user) {
+    return { error: "Email ou mot de passe invalide" };
+  }
 
-    redirect("/dashboard");
+  redirect("/dashboard");
+}
+
+export async function loginSocial(provider: "github" | "google") {
+  const { url } = await auth.api.signInSocial({
+    body: {
+      provider,
+      callbackURL: "/dashboard",
+    },
+  });
+  if (url) {
+    redirect(url);
+  }
 }
 
 export async function logout() {
