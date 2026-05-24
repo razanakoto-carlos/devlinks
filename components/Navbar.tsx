@@ -34,7 +34,7 @@ function Navbar({session}:{session: Session | null}) {
                 Tableau de bord
               </Button>
             </Link>
-            <Link href="/developers/z3r0">
+            <Link href="/auth/profile">
               <Button className="bg-green-500 text-[#0f1117] hover:bg-green-500 font-semibold text-sm h-9">
                 Mon profil
               </Button>

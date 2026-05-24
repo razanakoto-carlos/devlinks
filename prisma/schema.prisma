@@ -23,7 +23,6 @@ model User {
   image         String?
   available     Boolean   @default(false)
   createdAt     DateTime  @default(now())
-  updateAt      DateTime  @updatedAt
   emailVerified Boolean   @default(false)
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
