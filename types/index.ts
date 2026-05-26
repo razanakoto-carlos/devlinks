@@ -1,15 +1,17 @@
 export type Dev = {
   id: string;
-  skills?: string[];
-  slug?: string;
-  initials?: string;
-  color?: string;
   name: string;
   username: string;
   role?: string;
   location?: string;
   bio?: string;
   available?: boolean;
+};
+
+export type ActionState = {
+  success: boolean;
+  message: string;
+  errors?: Record<string, string[]>;
 };
 
 export interface SocialLink {
@@ -24,11 +26,3 @@ export interface Project {
   stack: string;
   description: string;
 }
-
-export type AvatarColor =
-  | "green"
-  | "indigo"
-  | "rose"
-  | "amber"
-  | "sky"
-  | "violet";

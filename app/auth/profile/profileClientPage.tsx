@@ -10,7 +10,6 @@ export default function ProfileClientPage({currentUser}:{currentUser:Dev}) {
 
   function handleSave(updated: Partial<Dev>) {
     setUser((prev) => ({ ...prev, ...updated }))
-   
   }
 
   return (

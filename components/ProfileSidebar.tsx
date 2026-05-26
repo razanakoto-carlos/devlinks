@@ -7,11 +7,11 @@ import { Avatar } from "./ui/avatar"
 import { Dev } from "@/types"
 
 const navItems = [
-  { href: "/profile", label: "Mon profil", icon: "◈" },
-  { href: "/profile/links", label: "Mes liens", icon: "⌥" },
-  { href: "/profile/skills", label: "Compétences", icon: "◉" },
-  { href: "/profile/projects", label: "Projets", icon: "▣" },
-  { href: "/profile/appearance", label: "Apparence", icon: "◌" },
+  { href: "/auth/profile", label: "Mon profil", icon: "◈" },
+  { href: "/auth/profile/links", label: "Mes liens", icon: "⌥" },
+  { href: "/auth/profile/skills", label: "Compétences", icon: "◉" },
+  { href: "/auth/profile/projects", label: "Projets", icon: "▣" },
+  { href: "/auth/profile/avatar", label: "Avatar", icon: "◌" },
 ]
 
 interface ProfileSidebarProps {

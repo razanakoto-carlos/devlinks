@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { Toaster } from "@/components/ui/sonner" 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +38,7 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <Navbar session={session} />
         {children}
+        <Toaster theme="dark" position="bottom-right" />
       </body>
     </html>
   );
