@@ -1,7 +1,10 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import ProfileClientPage from "./profileClientPage";
+import SkillsClientPage from "./SkillsClientPage";
+import { SkillItemInput } from "@/validation/validation";
+import { prisma } from "@/lib/prisma";
+import { SkillItem } from "@/types";
 
 async function Profile() {
   const session = await auth.api.getSession({
@@ -13,20 +16,20 @@ async function Profile() {
   }
   const user = session.user;
 
+   const initialSkills = (await prisma.skill.findMany({
+      where: { userId: user.id },
+      select: { id: true, name: true, level: true },
+    })) as SkillItem[];
+
   const currentUser = {
     ...user,
-    slug: user.username,
-    initials:
-      `${user.name.split(" ")[0][0]}${user.name.split(" ")[1]?.[0] ?? ""}`.toUpperCase(),
-    color: "#10b981",
-    skills: [],
     role: user.role ?? "",
     location: user.location ?? "",
     bio: user.bio ?? "",
     image: user.image ?? "",
   };
 
-  return <ProfileClientPage currentUser={currentUser} />;
+  return <SkillsClientPage currentUser={currentUser} initialSkills={initialSkills} />;
 }
 
 export default Profile;

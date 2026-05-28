@@ -1,8 +1,5 @@
-function DashboardClientPage() {
-  return (
-    <div>Dashboard</div>
-  )
+function dashboardClientPage() {
+  return <div>Dashboard</div>;
 }
 
-export default DashboardClientPage
-
+export default dashboardClientPage;

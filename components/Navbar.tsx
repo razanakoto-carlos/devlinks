@@ -21,7 +21,7 @@ function Navbar({session}:{session: Session | null}) {
             <Link href="/">
                <Button
                 variant="outline"
-                className="border-none bg-transparent hover:bg-gray-800 text-slate-200 hover:border-white/20 text-sm h-9 hover:text-white"
+                className="border-none bg-transparent hover:bg-gray-800 text-slate-200 hover:border-white/20 text-sm h-9 hover:text-white cursor-pointer"
               >
                 Annuaire
               </Button>
@@ -29,13 +29,13 @@ function Navbar({session}:{session: Session | null}) {
             <Link href="/dashboard">
               <Button
                 variant="outline"
-                className="bg-transparent hover:bg-transparent border-white/20 text-slate-200 hover:border-green-500 hover:text-green-500 text-sm h-9"
+                className="bg-transparent hover:bg-transparent border-white/20 text-slate-200 hover:border-green-500 hover:text-green-500 text-sm h-9 cursor-pointer"
               >
                 Tableau de bord
               </Button>
             </Link>
-            <Link href="/developers/z3r0">
-              <Button className="bg-green-500 text-[#0f1117] hover:bg-green-500 font-semibold text-sm h-9">
+            <Link href="/auth/profile">
+              <Button className="bg-green-500 text-[#0f1117] hover:bg-green-500 font-semibold text-sm h-9 cursor-pointer">
                 Mon profil
               </Button>
             </Link>
@@ -45,7 +45,7 @@ function Navbar({session}:{session: Session | null}) {
             <Link href="/">
               <Button
                 variant="outline"
-                className="border-none bg-transparent hover:bg-gray-800 text-slate-200 hover:border-white/20 text-sm h-9 hover:text-white"
+                className="cursor-pointer border-none bg-transparent hover:bg-gray-800 text-slate-200 hover:border-white/20 text-sm h-9 hover:text-white"
               >
                 Annuaire
               </Button>
@@ -53,13 +53,13 @@ function Navbar({session}:{session: Session | null}) {
             <Link href="/auth/login">
               <Button
                 variant="outline"
-                className="border-white/20 bg-transparent text-slate-200 hover:bg-transparent hover:border-green-500 hover:text-green-500 text-sm h-9"
+                className="cursor-pointer border-white/20 bg-transparent text-slate-200 hover:bg-transparent hover:border-green-500 hover:text-green-500 text-sm h-9"
               >
                 Se connecter
               </Button>
             </Link>
             <Link href="/auth/register">
-              <Button className="bg-green-500 text-[#0f1117] hover:bg-green-500 font-semibold text-sm h-9">
+              <Button className="cursor-pointer bg-green-500 text-[#0f1117] hover:bg-green-500 font-semibold text-sm h-9">
                 Créer un compte
               </Button>
             </Link>

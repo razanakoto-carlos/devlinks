@@ -23,11 +23,13 @@ model User {
   image         String?
   available     Boolean   @default(false)
   createdAt     DateTime  @default(now())
-  updateAt      DateTime  @updatedAt
   emailVerified Boolean   @default(false)
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  links    Link[]
+  skills   Skill[]
+  projects Project[]
 
   @@map("user")
 }
@@ -78,4 +80,37 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Link {
+  id       String @id @default(cuid())
+  platform String
+  url      String
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, platform])
+  @@map("link")
+}
+
+model Skill {
+  id     String @id @default(cuid())
+  name   String
+  level  Int     @default(1)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, name])
+  @@map("skill")
+}
+
+model Project {
+  id          String  @id @default(cuid())
+  title       String
+  description String?
+  url         String? @unique
+  imageUrl    String?
+  userId      String
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  @@unique([userId, title])
+  @@map("project")
 }

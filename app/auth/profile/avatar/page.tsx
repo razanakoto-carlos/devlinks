@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import ProfileClientPage from "./profileClientPage";
+import AvatarClientPage from "./AvatarClientPage";
 
-async function Profile() {
+async function Links() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -15,18 +15,17 @@ async function Profile() {
 
   const currentUser = {
     ...user,
-    slug: user.username,
-    initials:
-      `${user.name.split(" ")[0][0]}${user.name.split(" ")[1]?.[0] ?? ""}`.toUpperCase(),
-    color: "#10b981",
-    skills: [],
     role: user.role ?? "",
     location: user.location ?? "",
     bio: user.bio ?? "",
     image: user.image ?? "",
   };
 
-  return <ProfileClientPage currentUser={currentUser} />;
+  return (
+    <AvatarClientPage
+      currentUser={currentUser}
+    />
+  );
 }
 
-export default Profile;
+export default Links;

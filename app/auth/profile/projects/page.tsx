@@ -1,7 +1,9 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import ProfileClientPage from "./profileClientPage";
+import ProjectsClientPage from "./ProjectsClientPage";
+import { ProjectItem } from "@/types";
+import { prisma } from "@/lib/prisma";
 
 async function Profile() {
   const session = await auth.api.getSession({
@@ -12,21 +14,21 @@ async function Profile() {
     redirect("/");
   }
   const user = session.user;
+  
+  const initialProjects = (await prisma.project.findMany({
+      where: { userId: user.id },
+      select: { id: true, title: true, description: true ,url:true, imageUrl:true},
+    })) as ProjectItem[];
 
   const currentUser = {
     ...user,
-    slug: user.username,
-    initials:
-      `${user.name.split(" ")[0][0]}${user.name.split(" ")[1]?.[0] ?? ""}`.toUpperCase(),
-    color: "#10b981",
-    skills: [],
     role: user.role ?? "",
     location: user.location ?? "",
     bio: user.bio ?? "",
     image: user.image ?? "",
   };
 
-  return <ProfileClientPage currentUser={currentUser} />;
+  return <ProjectsClientPage currentUser={currentUser} initialProjects={initialProjects} />;
 }
 
 export default Profile;

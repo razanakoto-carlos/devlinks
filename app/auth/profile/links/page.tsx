@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
-import ProfileClientPage from "./profileClientPage";
+import LinksClientPage from "./LinksClientPage";
+import { prisma } from "@/lib/prisma";
+import { LinkItem } from "@/types";
 
-async function Profile() {
+async function Links() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -13,20 +15,22 @@ async function Profile() {
   }
   const user = session.user;
 
+  const initialLinks = (await prisma.link.findMany({
+    where: { userId: user.id },
+    select: { id: true, platform: true, url: true },
+  })) as LinkItem[];
+
   const currentUser = {
     ...user,
-    slug: user.username,
-    initials:
-      `${user.name.split(" ")[0][0]}${user.name.split(" ")[1]?.[0] ?? ""}`.toUpperCase(),
-    color: "#10b981",
-    skills: [],
     role: user.role ?? "",
     location: user.location ?? "",
     bio: user.bio ?? "",
     image: user.image ?? "",
   };
 
-  return <ProfileClientPage currentUser={currentUser} />;
+  return (
+    <LinksClientPage currentUser={currentUser} initialLinks={initialLinks} />
+  );
 }
 
-export default Profile;
+export default Links;

@@ -59,6 +59,23 @@ export const auth = betterAuth({
         required: true,
         unique: true,
       },
+      bio: {
+        type: "string",
+        required: false,
+      },
+      role: {
+        type: "string",
+        required: false,
+      },
+      location: {
+        type: "string",
+        required: false,
+      },
+      available: {
+        type: "boolean",
+        required: false,
+        defaultValue: false,
+      },
     },
   },
   socialProviders: {
