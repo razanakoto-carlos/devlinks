@@ -5,6 +5,7 @@ export type Dev = {
   location?: string;
   bio?: string;
   available?: boolean | null;
+  image?:string;
 };
 
 export interface LinkItem {
@@ -15,11 +16,12 @@ export interface LinkItem {
 
 export type AllowedPlatform = "github" | "linkedin" | "twitter" | "website" | "youtube";
 
-export type ActionState = {
+export interface ActionState {
   success: boolean;
   message: string;
   errors?: Record<string, string[]>;
-};
+  data?: string | Record<string, unknown>;
+}
 
 export interface SocialLink {
   label: string;
