@@ -8,6 +8,26 @@ export type Dev = {
   image?:string;
 };
 
+export type DevDashboard = Dev & {
+  email?:string
+  slug: string
+  initials: string
+  color: string
+  links: {
+    label: string
+    url: string
+    icon: string
+  }[]
+  skills: string[]
+  projects: {
+    id: string
+    title: string
+    description: string | null
+    url: string | null
+    imageUrl: string | null
+  }[]
+}
+
 export interface LinkItem {
   id: string;
   platform: AllowedPlatform;
@@ -38,7 +58,7 @@ export interface SkillItem {
 export interface ProjectItem {
   id: string
   title: string
-  description?: string
-  url?: string
-  imageUrl?: string
+  description?: string | null
+  url?: string | null
+  imageUrl?: string | null
 }
