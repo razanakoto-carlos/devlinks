@@ -8,6 +8,25 @@ export type Dev = {
   image?:string;
 };
 
+
+export type DevPage = {
+  id: string;
+  name: string;
+  username: string;
+  slug: string;
+  role?: string;
+  location?: string;
+  bio?: string;
+  available?: boolean;
+  image?: string | null;
+  initials: string;
+  color: string;
+  skills: string[];
+  github?: string;
+  linkedin?: string;
+  portfolio?: string;
+};
+
 export type DevDashboard = Dev & {
   email?:string
   slug: string

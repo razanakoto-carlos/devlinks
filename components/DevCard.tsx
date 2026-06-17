@@ -10,9 +10,10 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { GitBranch, Globe, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { Dev } from "@/types";
+import type { DevPage } from "@/types";
+import { AvatarDisplay } from "./AvatarDisplay";
 
-type Props = { dev: Dev };
+type Props = { dev: DevPage };
 
 export default function DevCard({ dev }: Props) {
   return (
@@ -31,17 +32,21 @@ export default function DevCard({ dev }: Props) {
 
       <CardHeader className="pb-3 pr-28">
         <div className="flex items-center gap-3">
-          <div
-            className={cn(
-              "w-11 h-11 rounded-full flex items-center justify-center",
-              "text-white font-bold text-base shrink-0",
-              dev.color
-            )}
-          >
-            {dev.initials}
-          </div>
+          {dev.image ? (
+            <AvatarDisplay src={dev.image} name={dev.name} size={48} />
+          ) : (
+            <div
+              className={cn(
+                "w-11 h-11 rounded-full flex items-center justify-center",
+                "text-white font-bold text-base shrink-0",
+                dev.color,
+              )}
+            >
+              {dev.initials}
+            </div>
+          )}
           <div>
-            <p className="font-bold text-[#e8eaf0] leading-snug">{dev.name}</p>
+            <p className="capitalize font-bold text-[#e8eaf0] leading-snug">{dev.name}</p>
             <p className="text-[#6b7a99] text-sm mt-0.5">
               {dev.role} · {dev.location}
             </p>
@@ -102,9 +107,7 @@ export default function DevCard({ dev }: Props) {
               </a>
             )}
           </div>
-          <span className="text-xs text-[#4a5568] font-mono">
-            /{dev.slug}
-          </span>
+          <span className="text-xs text-[#4a5568] font-mono">/{dev.slug}</span>
         </div>
       </CardFooter>
     </Card>

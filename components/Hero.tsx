@@ -39,13 +39,13 @@ export default function Hero() {
       </p>
       <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
         <Link
-          href="/profil/creer"
+          href="/auth/profile"
           className="rounded-lg bg-green-400 px-6 py-2.5 text-sm font-semibold text-[#0d0f18] transition-all hover:bg-green-300 hover:scale-[1.02] active:scale-95"
         >
           Créer mon profil
         </Link>
         <Link
-          href="/annuaire"
+          href="/"
           className="rounded-lg border border-white/15 bg-white/5 px-6 py-2.5 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:border-white/25 active:scale-95"
         >
           Explorer →
