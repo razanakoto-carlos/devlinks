@@ -40,7 +40,15 @@ export interface ActionState {
   success: boolean;
   message: string;
   errors?: Record<string, string[]>;
-  data?: string | Record<string, unknown>;
+  data?: {
+  projects?: Array<{
+    id: string;
+    title: string;
+    description?: string | null;
+    url?: string | null;
+    imageUrl?: string | null;
+  }>;
+};
 }
 
 export interface SocialLink {

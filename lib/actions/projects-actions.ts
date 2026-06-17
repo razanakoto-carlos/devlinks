@@ -4,25 +4,24 @@ import { z } from "zod";
 import { prisma } from "../prisma";
 import { requireAuth } from "../session";
 import { revalidatePath } from "next/cache";
-import { ActionState } from "@/types";
+import { ActionState, ProjectItem } from "@/types";
 import { CreateProjectSchema } from "@/validation/validation"; // Notre schéma qui attend { projects: [...] }
 
 type CreateProjectInput = z.infer<typeof CreateProjectSchema>;
 
 export async function createProject(data: CreateProjectInput): Promise<ActionState> {
+  console.log("DATA REÇUE:", JSON.stringify(data, null, 2));
   const currentUser = await requireAuth();
-
   const parsed = CreateProjectSchema.safeParse(data);
   if (!parsed.success) {
+    console.log("ERREURS ZOD:", JSON.stringify(parsed.error.flatten(), null, 2));
     return {
       success: false,
       message: "Validation échouée.",
       errors: parsed.error.flatten().fieldErrors,
     };
   }
-
   const { projects } = parsed.data;
-
   try {
     for (const project of projects) {
       if (project.url && project.url.trim() !== "") {
@@ -32,7 +31,6 @@ export async function createProject(data: CreateProjectInput): Promise<ActionSta
             NOT: { id: project.id },
           },
         });
-
         if (existingProject) {
           return {
             success: false,
@@ -42,14 +40,14 @@ export async function createProject(data: CreateProjectInput): Promise<ActionSta
       }
     }
 
-    await prisma.$transaction(async (tx) => {
+    const savedProjects = await prisma.$transaction(async (tx) => {
       const activeIds: string[] = [];
+      const saved: ProjectItem[] = [];
 
       for (const project of projects) {
         const existing = await tx.project.findFirst({
           where: { id: project.id, userId: currentUser.id },
         });
-
         if (existing) {
           await tx.project.update({
             where: { id: project.id },
@@ -61,6 +59,7 @@ export async function createProject(data: CreateProjectInput): Promise<ActionSta
             },
           });
           activeIds.push(project.id);
+          saved.push({ ...project });
         } else {
           const newProject = await tx.project.create({
             data: {
@@ -72,18 +71,32 @@ export async function createProject(data: CreateProjectInput): Promise<ActionSta
             },
           });
           activeIds.push(newProject.id);
+          saved.push({
+            id: newProject.id,
+            title: newProject.title,
+            description: newProject.description ?? "",
+            url: newProject.url ?? "",
+            imageUrl: newProject.imageUrl ?? "",
+          });
         }
       }
+
       await tx.project.deleteMany({
         where: {
           userId: currentUser.id,
           id: { notIn: activeIds },
         },
       });
-    });
-    revalidatePath("/profile/projects");
-    return { success: true, message: "Projets enregistrés avec succès !" };
 
+      return saved;
+    });
+
+    revalidatePath("/profile/projects");
+    return {
+      success: true,
+      message: "Projets enregistrés avec succès !",
+      data: { projects: savedProjects },
+    };
   } catch (error) {
     console.error("[createProject]", error);
     return { success: false, message: "Erreur serveur. Réessaie." };

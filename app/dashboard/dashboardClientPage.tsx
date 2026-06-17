@@ -13,8 +13,8 @@ export default function DashboardClientPage({currentUser}:{currentUser:DevDashbo
   const [activeTab, setActiveTab] = useState<Tab>("Projets")
 
   return (
-    <div className="pt-15 bg-[#0d0f18]">
-    <div className="mx-auto max-w-275 px-6 pt-15 bg-[#0d0f18]" >
+    <div className="pt-8 bg-[#0d0f18]">
+    <div className="mx-auto max-w-275 px-6" >
       <ProfileHero developer={currentUser} />
       <div className="mb-8 flex gap-1 border-b border-[#1e1e2e]">
         {TABS.map((tab) => (

@@ -45,19 +45,21 @@ export const ProjectSchema = z.object({
     .string()
     .max(500, "La description ne doit pas dépasser 500 caractères.")
     .optional() 
-    .or(z.literal("")),
+    .or(z.literal(""))
+    .nullable(),
     
   url: z
     .string()
     .url("L'URL du projet n'est pas valide (ex: https://monprojet.com).")
     .optional()
-    .or(z.literal("")),
+    .or(z.literal(""))
+    .nullable(),
     
   imageUrl: z
     .string()
     .url("L'URL de l'image n'est pas valide.")
     .optional()
-    .or(z.literal("")),
+    .or(z.literal("")).nullable(),
 });
 
 export const CreateProjectSchema = z.object({

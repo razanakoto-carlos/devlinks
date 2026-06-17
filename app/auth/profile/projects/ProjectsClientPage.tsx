@@ -1,54 +1,72 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Dev, ProjectItem } from "@/types"
-import { ProfileSidebar } from "@/components/ProfileSidebar"
-import ProjectCard from "@/components/ProjectCard"
-import { createProject } from "@/lib/actions/projects-actions"
+import { useState } from "react";
+import { Dev, ProjectItem } from "@/types";
+import { ProfileSidebar } from "@/components/ProfileSidebar";
+import ProjectCard from "@/components/ProjectCard";
+import { createProject } from "@/lib/actions/projects-actions";
 
 interface ProjectsClientPageProps {
-  currentUser: Dev
-  initialProjects?: ProjectItem[]
+  currentUser: Dev;
+  initialProjects?: ProjectItem[];
 }
 
-export default function ProjectsClientPage({ currentUser, initialProjects = [] }: ProjectsClientPageProps) {
-  const [user] = useState<Dev>(currentUser)
-  const [projects, setProjects] = useState<ProjectItem[]>(initialProjects)
-  const [saving, setSaving] = useState(false)
-  const [saved, setSaved] = useState(false)
+export default function ProjectsClientPage({
+  currentUser,
+  initialProjects = [],
+}: ProjectsClientPageProps) {
+  const [user] = useState<Dev>(currentUser);
+  const [projects, setProjects] = useState<ProjectItem[]>(initialProjects);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   function addProject() {
     setProjects((prev) => [
       ...prev,
-      { id: crypto.randomUUID(), title: "", description: "", url: "", imageUrl: "" },
-    ])
+      {
+        id: crypto.randomUUID(),
+        title: "",
+        description: "",
+        url: "",
+        imageUrl: "",
+      },
+    ]);
   }
 
   function removeProject(id: string) {
-    setProjects((prev) => prev.filter((p) => p.id !== id))
+    setProjects((prev) => prev.filter((p) => p.id !== id));
   }
 
   function updateProject(id: string, field: keyof ProjectItem, value: string) {
     setProjects((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, [field]: value } : p))
-    )
+      prev.map((p) => (p.id === id ? { ...p, [field]: value } : p)),
+    );
   }
 
   async function handleSave() {
-    setSaving(true)
+    setSaving(true);
     try {
       const result = await createProject({ projects });
-    if (result.success) {
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-    } else {
-     
-      console.error(result.message); 
-    }
+      if (result.success) {
+        if (result.data?.projects) {
+          setProjects(
+            result.data.projects.map((p) => ({
+              ...p,
+              description: p.description ?? "",
+              url: p.url ?? "",
+              imageUrl: p.imageUrl ?? "",
+            })),
+          );
+        }
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
+      } else {
+        console.error(result.message);
+      }
     } catch (e) {
-      console.error(e)
+      console.error(e);
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
   }
 
@@ -72,8 +90,12 @@ export default function ProjectsClientPage({ currentUser, initialProjects = [] }
               {projects.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-[#1e1e2e] py-14 text-center">
                   <span className="text-4xl text-[#1e2a3a]">▣</span>
-                  <p className="mt-3 text-[13px] text-[#64748b]">Aucun projet pour l&apos;instant</p>
-                  <p className="text-[12px] text-[#475569]">Clique sur « Ajouter un projet » pour commencer</p>
+                  <p className="mt-3 text-[13px] text-[#64748b]">
+                    Aucun projet pour l&apos;instant
+                  </p>
+                  <p className="text-[12px] text-[#475569]">
+                    Clique sur « Ajouter un projet » pour commencer
+                  </p>
                 </div>
               ) : (
                 projects.map((project) => (
@@ -99,12 +121,16 @@ export default function ProjectsClientPage({ currentUser, initialProjects = [] }
                 disabled={saving || projects.length === 0}
                 className="rounded-lg bg-emerald-500 px-5 py-2.5 text-[13px] font-semibold text-[#0d0f18] transition-all hover:bg-emerald-400 disabled:opacity-50"
               >
-                {saving ? "Enregistrement…" : saved ? "✓ Enregistré" : "Enregistrer"}
+                {saving
+                  ? "Enregistrement…"
+                  : saved
+                    ? "✓ Enregistré"
+                    : "Enregistrer"}
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
