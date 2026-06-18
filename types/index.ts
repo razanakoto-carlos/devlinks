@@ -55,10 +55,11 @@ export interface LinkItem {
 
 export type AllowedPlatform = "github" | "linkedin" | "twitter" | "website" | "youtube";
 
-export interface ActionState {
+export interface ActionStateProjects {
   success: boolean;
   message: string;
   errors?: Record<string, string[]>;
+  imageUrl?: string;
   data?: {
   projects?: Array<{
     id: string;
@@ -69,7 +70,14 @@ export interface ActionState {
   }>;
 };
 }
-
+export interface ActionState {
+  success: boolean;
+  message: string;
+  errors?: Record<string, string[]>;
+  imageUrl?: string;
+  data?: string | Record<string, unknown>;
+}
+ 
 export interface SocialLink {
   label: string;
   url: string;

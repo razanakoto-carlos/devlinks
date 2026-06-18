@@ -4,12 +4,12 @@ import { z } from "zod";
 import { prisma } from "../prisma";
 import { requireAuth } from "../session";
 import { revalidatePath } from "next/cache";
-import { ActionState, ProjectItem } from "@/types";
-import { CreateProjectSchema } from "@/validation/validation"; // Notre schéma qui attend { projects: [...] }
+import {  ActionStateProjects, ProjectItem } from "@/types";
+import { CreateProjectSchema } from "@/validation/validation";
 
 type CreateProjectInput = z.infer<typeof CreateProjectSchema>;
 
-export async function createProject(data: CreateProjectInput): Promise<ActionState> {
+export async function createProject(data: CreateProjectInput): Promise<ActionStateProjects> {
   console.log("DATA REÇUE:", JSON.stringify(data, null, 2));
   const currentUser = await requireAuth();
   const parsed = CreateProjectSchema.safeParse(data);
@@ -103,7 +103,7 @@ export async function createProject(data: CreateProjectInput): Promise<ActionSta
   }
 }
 
-export async function deleteProject(id: string): Promise<ActionState> {
+export async function deleteProject(id: string): Promise<ActionStateProjects> {
   const currentUser = await requireAuth();
 
   try {
