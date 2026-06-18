@@ -177,7 +177,7 @@ export function ProfileForm({ user, onSave }: ProfileFormProps) {
           Disponible pour missions
         </span>
         <Switch
-          checked={form.available}
+          checked={form.available ?? false}
           onCheckedChange={handleAvailable}
           className="data-[state=checked]:bg-emerald-500 data-[state=unchecked]:bg-gray-600"
         />
