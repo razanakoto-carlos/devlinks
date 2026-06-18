@@ -12,6 +12,7 @@ import { GitBranch, Globe, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { DevPage } from "@/types";
 import { AvatarDisplay } from "./AvatarDisplay";
+import Link from "next/link";
 
 type Props = { dev: DevPage };
 
@@ -29,30 +30,33 @@ export default function DevCard({ dev }: Props) {
           </Badge>
         </div>
       )}
-
-      <CardHeader className="pb-3 pr-28">
-        <div className="flex items-center gap-3">
-          {dev.image ? (
-            <AvatarDisplay src={dev.image} name={dev.name} size={48} />
-          ) : (
-            <div
-              className={cn(
-                "w-11 h-11 rounded-full flex items-center justify-center",
-                "text-white font-bold text-base shrink-0",
-                dev.color,
-              )}
-            >
-              {dev.initials}
+      <Link href={`/${dev.username}`}>
+        <CardHeader className="pb-3 pr-28">
+          <div className="flex items-center gap-3">
+            {dev.image ? (
+              <AvatarDisplay src={dev.image} name={dev.name} size={48} />
+            ) : (
+              <div
+                className={cn(
+                  "w-11 h-11 rounded-full flex items-center justify-center",
+                  "text-white font-bold text-base shrink-0",
+                  dev.color,
+                )}
+              >
+                {dev.initials}
+              </div>
+            )}
+            <div>
+              <p className="capitalize font-bold text-[#e8eaf0] leading-snug">
+                {dev.name}
+              </p>
+              <p className="text-[#6b7a99] text-sm mt-0.5">
+                {dev.role} · {dev.location}
+              </p>
             </div>
-          )}
-          <div>
-            <p className="capitalize font-bold text-[#e8eaf0] leading-snug">{dev.name}</p>
-            <p className="text-[#6b7a99] text-sm mt-0.5">
-              {dev.role} · {dev.location}
-            </p>
           </div>
-        </div>
-      </CardHeader>
+        </CardHeader>
+      </Link>
 
       <CardContent className="flex flex-col gap-4 flex-1">
         <p className="text-[#8892a4] text-sm leading-relaxed line-clamp-2">
